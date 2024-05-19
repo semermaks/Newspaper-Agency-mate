@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="m-0 mb-3 text-center w-100">
+      Newspapers Service Home
+    </h1>
+    <div>
+      <a href="{% url 'newspapers:newspapers-create' %}" class="btn btn-primary">
+        Create
+      </a>
+    </div>
+  </div>
+  <br>
+  <p>The Newspaper service has the following record counts:</p>
+  <ul>
+    <li><strong>Newspapers:</strong> {{ num_newspapers }}</li>
+    <li><strong>Redactors:</strong> {{ num_redactors }}</li>
+    <li><strong>Topics:</strong> {{ num_topics }}</li>
+  </ul>
+  <br>
+  <form method="get" action="" class="form-inline" style="margin-bottom: 10px;">
+    {{ search_form|crispy }}
+    <input type="Submit" value="🔍" class="btn btn-secondary" style="margin-left:10px;">
+  </form>
+  {% if newspapers_list %}
+    <table class="main table">
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Date ↓</th>
+      </tr>
+      {% for newspaper in newspapers_list %}
+        <tr>
+          <td style="min-width: 250px">{{ newspaper.title }}</td>
+          <td style="max-width: 3%">
+            <a href="{% url "newspapers:newspaper-detail" pk=newspaper.id %} ">{{ newspaper.content|slice:":400" }}...</a>
+          </td>
+          <td style="min-width: 250px">{{ newspaper.published_date }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>There are no newspapers.</p>
+  {% endif %}
+
+{% endblock %}
