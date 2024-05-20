@@ -4,8 +4,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 
-from Newspaper_Agency_mate import settings
-
 
 class Topic(models.Model):
     title = models.CharField(max_length=255)
@@ -37,6 +35,7 @@ class Newspaper(models.Model):
     title = models.CharField(max_length=255, unique=True)
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True, blank=True)
+    main_img = models.ImageField(upload_to='images/', default='images/default.jpg')
 
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="newspapers")
     redactor = models.ManyToManyField(Redactor, related_name="newspapers")

@@ -120,24 +120,6 @@ def register_view(request):
     return render(request, 'registration/register.html', {'form': RegisterForm()})
 
 
-@login_required
-def index(request: HttpRequest) -> HttpResponse:
-    """View function for the home page of the site."""
-
-    num_redactors = Redactor.objects.count()
-    num_newspapers = Newspaper.objects.count()
-    num_topics = Topic.objects.count()
-
-    context = {
-        "num_redactors": num_redactors,
-        "num_newspapers": num_newspapers,
-        "num_topics": num_topics,
-        "white": 1
-    }
-
-    return render(request, "newspapers/index.html", context=context)
-
-
 class TopicListView(LoginRequiredMixin, generic.ListView):
     model = Topic
     context_object_name = "topic_list"
@@ -301,8 +283,18 @@ def toggle_assign_to_newspaper(request, pk):
     redactor = Redactor.objects.get(id=request.user.id)
     if (
         Newspaper.objects.get(id=pk) in redactor.newspaper.all()
-    ):  # probably could check if car exists
+    ):
         redactor.newspaper.remove(pk)
     else:
         redactor.newspaper.add(pk)
     return HttpResponseRedirect(reverse_lazy("newspaper:newspaper-detail", args=[pk]))
+
+
+def create_newspaper(request):
+    if request.method == 'POST':
+        form = NewspaperForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+    else:
+        form = NewspaperForm()
+    return render(request, 'newspapers/newspaper_form.html', {'form': form})

@@ -1,7 +1,6 @@
 from django.urls import path, include
 
 from .views import (
-    index,
     NewspaperListView,
     NewspaperDetailView,
     NewspaperCreateView,
@@ -18,6 +17,8 @@ from .views import (
     TopicDeleteView, RegisterView, CreateProfileView, ActivateAccountView, toggle_theme,
     toggle_assign_to_newspaper,
 )
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("", NewspaperListView.as_view(), name="newspapers-list"),
@@ -76,5 +77,7 @@ urlpatterns = [
     path("activate/<str:username>/<str:token>/", ActivateAccountView.as_view(), name="activate"),
     path('toggle_theme/', toggle_theme, name='toggle_theme'),
 ]
-
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
 app_name = "newspapers"
