@@ -36,3 +36,7 @@ a:visited {
 .swicher:hover {
     color: #a3a3a3;
 }
+
+.img_hover{
+   background-color: rgba(255, 255, 255, 0.7);
+}

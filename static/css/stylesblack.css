@@ -47,3 +47,6 @@ a:visited {
     color: #353535;
 }
 
+.img_hover{
+   background-color: rgba(0, 0, 0, 0.7);
+}
