@@ -32,12 +32,12 @@
         <th>Date ↓</th>
       </tr>
       {% for newspaper in newspapers_list %}
-        <tr>
-          <td style="min-width: 250px">{{ newspaper.title }}</td>
-          <td style="max-width: 3%">
-            <a href="{% url "newspapers:newspaper-detail" pk=newspaper.id %} ">{{ newspaper.content|slice:":400" }}...</a>
+        <tr style="background-image: url('{{ newspaper.main_img.url }}'); background-size: cover; background-position: center;">
+          <td style="color: white; background-color: rgba(0, 0, 0, 0.7);">{{ newspaper.title }}</td>
+          <td style="color: white; max-width: 3%; background-color: rgba(0, 0, 0, 0.7);">
+            <a style="color: white" href="{% url 'newspapers:newspaper-detail' pk=newspaper.id %}">{{ newspaper.content|slice:":400" }}...</a>
           </td>
-          <td style="min-width: 250px">{{ newspaper.published_date }}</td>
+          <td style="color: white; min-width: 250px; background-color: rgba(0, 0, 0, 0.7);">{{ newspaper.published_date }}</td>
         </tr>
       {% endfor %}
     </table>

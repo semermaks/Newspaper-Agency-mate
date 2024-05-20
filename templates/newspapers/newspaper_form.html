@@ -3,7 +3,7 @@
 
 {% block content %}
   <h1>{{ object|yesno:"Update,Create" }} newspaper</h1>
-  <form  class="main" action="" method="post" novalidate>
+  <form enctype="multipart/form-data" class="main" action="" method="post" novalidate>
     {% csrf_token %}
     {{ form|crispy }}
 
