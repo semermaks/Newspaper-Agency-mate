@@ -1,22 +1,23 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
+from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView
 
-from .custom_contex import my_custom_context
 from .models import Redactor, Newspaper, Topic
 from .models import ActivateToken
 from .forms import (RedactorCreationForm,
                     RedactorLicenseUpdateForm,
                     NewspaperForm,
                     ProfileForm,
-                    RegisterForm, NewspaperSearchForm, RedactorSearchForm, TopicSearchForm,
+                    RegisterForm,
+                    NewspaperSearchForm,
+                    RedactorSearchForm,
+                    TopicSearchForm,
                     )
 from .services import AccountsEmailNotification
 
@@ -65,12 +66,20 @@ class RegisterView(FormView):
         user_token = ActivateToken.objects.create(user=user)
 
         activate_url = (f'{self.request.scheme}://{self.request.get_host()}'
-                        f'{reverse("newspapers:activate", args=[user.username, user_token.token])}')
+                        f"""{reverse("newspapers:activate",
+                                     args=[
+                                         user.username,
+                                           user_token.token
+                                     ])}""")
 
         email_service = AccountsEmailNotification()
-        email_service.send_activation_email(user.email, user.get_full_name(), activate_url)
+        email_service.send_activation_email(user.email,
+                                            user.get_full_name(),
+                                            activate_url)
 
-        messages.info(self.request, 'Registration completed. Please check your email to activate your account.')
+        messages.info(self.request,
+                      'Registration completed.'
+                      ' Please check your email to activate your account.')
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -100,10 +109,10 @@ class ActivateAccountView(View):
 
 def register_view(request):
     if request.user.is_authenticated:
-        messages.info(request, "You already logged in")
-        return redirect("movies:movie_list")
+        messages.info(request, 'You already logged in')
+        return redirect('movies:movie_list')
 
-    if request.method == "POST":
+    if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
 
@@ -112,26 +121,38 @@ def register_view(request):
             user.save()
 
             messages.info(request, 'Registration completed')
-            AccountsEmailNotification.send_activation_email(user.email, user.get_full_name(), 'http://127.0.0.1:8000')
-            return redirect("registration:login")
+            AccountsEmailNotification.send_activation_email(
+                user.email,
+                user.get_full_name(),
+                'http://127.0.0.1:8000'
+            )
+            return redirect('registration:login')
         else:
-            return render(request, 'registration/register.html', {'form': form})
+            return render(
+                request,
+                'registration/register.html',
+                {'form': form}
+            )
 
-    return render(request, 'registration/register.html', {'form': RegisterForm()})
+    return render(
+        request,
+        'registration/register.html',
+        {'form': RegisterForm()}
+    )
 
 
 class TopicListView(LoginRequiredMixin, generic.ListView):
     model = Topic
-    context_object_name = "topic_list"
-    template_name = "newspapers/topic_list.html"
+    context_object_name = 'topic_list'
+    template_name = 'newspapers/topic_list.html'
     paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TopicListView, self).get_context_data(**kwargs)
-        title = self.request.GET.get("title", "")
-        context["search_form"] = TopicSearchForm(
+        title = self.request.GET.get('title', '')
+        context['search_form'] = TopicSearchForm(
             initial={
-                "title": title,
+                'title': title,
             }
         )
         return context
@@ -139,50 +160,52 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         for topic in queryset:
-            topic.is_creator = topic.newspapers.filter(redactor=self.request.user).exists()
+            topic.is_creator = topic.newspapers.filter(
+                redactor=self.request.user
+            ).exists()
         return queryset
 
 
 class TopicCreateView(LoginRequiredMixin, generic.CreateView):
     model = Topic
-    fields = "__all__"
-    success_url = reverse_lazy("newspapers:topic-list")
+    fields = '__all__'
+    success_url = reverse_lazy('newspapers:topic-list')
 
 
 class TopicUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Topic
-    fields = "__all__"
-    success_url = reverse_lazy("newspapers:topic-list")
+    fields = '__all__'
+    success_url = reverse_lazy('newspapers:topic-list')
 
 
 class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Topic
-    success_url = reverse_lazy("newspapers:topic-list")
+    success_url = reverse_lazy('newspapers:topic-list')
 
 
 class NewspaperListView(LoginRequiredMixin, generic.ListView):
     model = Newspaper
     paginate_by = 5
-    context_object_name = "newspapers_list"
-    queryset = Newspaper.objects.select_related("topic")
-    template_name = "newspapers/newspapers_list.html"
+    context_object_name = 'newspapers_list'
+    queryset = Newspaper.objects.select_related('topic')
+    template_name = 'newspapers/newspapers_list.html'
 
     num_redactors = Redactor.objects.count()
     num_newspapers = Newspaper.objects.count()
     num_topics = Topic.objects.count()
 
     extra_context = {
-        "num_redactors": num_redactors,
-        "num_newspapers": num_newspapers,
-        "num_topics": num_topics
+        'num_redactors': num_redactors,
+        'num_newspapers': num_newspapers,
+        'num_topics': num_topics
     }
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(NewspaperListView, self).get_context_data(**kwargs)
-        title = self.request.GET.get("title", "")
-        context["search_form"] = NewspaperSearchForm(
+        title = self.request.GET.get('title', '')
+        context['search_form'] = NewspaperSearchForm(
             initial={
-                "title": title,
+                'title': title,
             }
         )
         return context
@@ -192,52 +215,54 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
         form = NewspaperSearchForm(self.request.GET)
         if form.is_valid():
             return self.queryset.filter(
-                title__icontains=form.cleaned_data["title"]
+                title__icontains=form.cleaned_data['title']
             )
         return self.queryset
 
 
 class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newspaper
-    context_object_name = "newspapers"
-    template_name = "newspapers/newspapers_detail.html"
+    context_object_name = 'newspapers'
+    template_name = 'newspapers/newspapers_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["is_creator"] = self.object.redactor.filter(id=self.request.user.id).exists()
+        context['is_creator'] = self.object.redactor.filter(
+            id=self.request.user.id
+        ).exists()
         return context
 
 
 class NewspaperCreateView(LoginRequiredMixin, generic.CreateView):
     model = Newspaper
     form_class = NewspaperForm
-    success_url = reverse_lazy("newspapers:newspapers-list")
+    success_url = reverse_lazy('newspapers:newspapers-list')
 
 
 class NewspaperUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Newspaper
     form_class = NewspaperForm
-    success_url = reverse_lazy("newspapers:newspapers-list")
+    success_url = reverse_lazy('newspapers:newspapers-list')
 
 
 class NewspaperDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Newspaper
-    success_url = reverse_lazy("newspapers:newspapers-list")
-    template_name = "newspapers/newspapers_confirm_delete.html"
+    success_url = reverse_lazy('newspapers:newspapers-list')
+    template_name = 'newspapers/newspapers_confirm_delete.html'
 
 
 class RedactorListView(LoginRequiredMixin, generic.ListView):
     model = Redactor
-    context_object_name = "redactor_list"
-    template_name = "newspapers/redactor_list.html"
+    context_object_name = 'redactor_list'
+    template_name = 'newspapers/redactor_list.html'
     paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(RedactorListView, self).get_context_data(**kwargs)
-        username = self.request.GET.get("username", "")
-        context["search_form"] = RedactorSearchForm(
+        username = self.request.GET.get('username', '')
+        context['search_form'] = RedactorSearchForm(
             initial={
-                "username": username,
+                'username': username,
             }
         )
         return context
@@ -247,14 +272,14 @@ class RedactorListView(LoginRequiredMixin, generic.ListView):
         form = RedactorSearchForm(self.request.GET)
         if form.is_valid():
             return self.queryset.filter(
-                username__icontains=form.cleaned_data["username"]
+                username__icontains=form.cleaned_data['username']
             )
         return self.queryset
 
 
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Redactor
-    queryset = Redactor.objects.all().prefetch_related("newspapers__topic")
+    queryset = Redactor.objects.all().prefetch_related('newspapers__topic')
 
 
 class RedactorCreateView(LoginRequiredMixin, generic.CreateView):
@@ -265,12 +290,12 @@ class RedactorCreateView(LoginRequiredMixin, generic.CreateView):
 class RedactorLicenseUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Redactor
     form_class = RedactorLicenseUpdateForm
-    success_url = reverse_lazy("newspapers:redactor-list")
+    success_url = reverse_lazy('newspapers:redactor-list')
 
 
 class RedactorDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Redactor
-    success_url = reverse_lazy("")
+    success_url = reverse_lazy('')
 
 
 def toggle_theme(request):
@@ -289,7 +314,10 @@ def toggle_assign_to_newspaper(request, pk):
         redactor.newspaper.remove(pk)
     else:
         redactor.newspaper.add(pk)
-    return HttpResponseRedirect(reverse_lazy("newspaper:newspaper-detail", args=[pk]))
+    return HttpResponseRedirect(reverse_lazy(
+        'newspaper:newspaper-detail',
+        args=[pk])
+    )
 
 
 def create_newspaper(request):
@@ -299,4 +327,8 @@ def create_newspaper(request):
             form.save()
     else:
         form = NewspaperForm()
-    return render(request, 'newspapers/newspaper_form.html', {'form': form})
+    return render(
+        request,
+        'newspapers/newspaper_form.html',
+        {'form': form}
+    )

@@ -5,11 +5,11 @@
   <h1>
     {{ newspapers.title }}
     {% if is_creator %}
-    <a href="{% url 'newspapers:newspapers-delete' pk=newspapers.id %}" class="btn btn-danger link-to-page">
+    <a href="{% url "newspapers:newspapers-delete" pk=newspapers.id %}" class="btn btn-danger link-to-page">
       Delete
     </a>
 
-    <a href="{% url 'newspapers:newspapers-update' pk=newspapers.id %}" class="btn btn-secondary link-to-page">
+    <a href="{% url "newspapers:newspapers-update" pk=newspapers.id %}" class="btn btn-secondary link-to-page">
       Update
     </a>
   {% endif %}
