@@ -4,6 +4,7 @@
 {% block content %}
   <h1>
     {{ newspapers.title }}
+    {% if is_creator %}
     <a href="{% url 'newspapers:newspapers-delete' pk=newspapers.id %}" class="btn btn-danger link-to-page">
       Delete
     </a>
@@ -11,6 +12,7 @@
     <a href="{% url 'newspapers:newspapers-update' pk=newspapers.id %}" class="btn btn-secondary link-to-page">
       Update
     </a>
+  {% endif %}
   </h1>
   <div class="row">
     <div class="col-md-4">

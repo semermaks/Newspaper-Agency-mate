@@ -137,13 +137,10 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        self.queryset = Topic.objects.all()
-        form = TopicSearchForm(self.request.GET)
-        if form.is_valid():
-            return self.queryset.filter(
-                title__icontains=form.cleaned_data["title"]
-            )
-        return self.queryset
+        queryset = super().get_queryset()
+        for topic in queryset:
+            topic.is_creator = topic.newspapers.filter(redactor=self.request.user).exists()
+        return queryset
 
 
 class TopicCreateView(LoginRequiredMixin, generic.CreateView):
@@ -204,6 +201,11 @@ class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newspaper
     context_object_name = "newspapers"
     template_name = "newspapers/newspapers_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["is_creator"] = self.object.redactor.filter(id=self.request.user.id).exists()
+        return context
 
 
 class NewspaperCreateView(LoginRequiredMixin, generic.CreateView):

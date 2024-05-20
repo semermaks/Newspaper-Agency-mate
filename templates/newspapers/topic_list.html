@@ -29,6 +29,7 @@
             {{ topic.title }}
           </td>
           <td>
+        {% if topic.is_creator %}
             <a href="{% url 'newspapers:topic-update' pk=topic.id %}">
               Update
             </a>
@@ -40,6 +41,7 @@
             </a>
           </td>
         </tr>
+        {% endif %}
       {% endfor %}
     </table>
 
