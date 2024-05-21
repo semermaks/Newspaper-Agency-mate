@@ -1,4 +1,6 @@
 asgiref==3.8.1
+click==8.1.7
+colorama==0.4.6
 Django==4.1
 django-crispy-forms==1.14.0
 django-debug-toolbar==3.2.4
@@ -8,6 +10,7 @@ flake8-variables-names==0.0.5
 gitdb==4.0.11
 GitPython==3.1.43
 gunicorn==22.0.0
+h11==0.14.0
 mccabe==0.7.0
 packaging==24.0
 pep8-naming==0.13.2
@@ -21,4 +24,5 @@ PyYAML==6.0.1
 smmap==5.0.1
 sqlparse==0.5.0
 tzdata==2024.1
+uvicorn==0.29.0
 whitenoise==6.6.0
