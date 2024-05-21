@@ -189,16 +189,15 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'newspapers_list'
     queryset = Newspaper.objects.select_related('topic')
     template_name = 'newspapers/newspapers_list.html'
-
-    num_redactors = Redactor.objects.count()
-    num_newspapers = Newspaper.objects.count()
-    num_topics = Topic.objects.count()
-
-    extra_context = {
-        'num_redactors': num_redactors,
-        'num_newspapers': num_newspapers,
-        'num_topics': num_topics
-    }
+    # num_redactors = Redactor.objects.count()
+    # num_newspapers = Newspaper.objects.count()
+    # num_topics = Topic.objects.count()
+    #
+    # extra_context = {
+    #     'num_redactors': num_redactors,
+    #     'num_newspapers': num_newspapers,
+    #     'num_topics': num_topics
+    # }
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(NewspaperListView, self).get_context_data(**kwargs)

@@ -13,13 +13,13 @@
     </div>
   </div>
   <br>
-  <p>The Newspaper service has the following record counts:</p>
-  <ul>
-    <li><strong>Newspapers:</strong> {{ num_newspapers }}</li>
-    <li><strong>Redactors:</strong> {{ num_redactors }}</li>
-    <li><strong>Topics:</strong> {{ num_topics }}</li>
-  </ul>
-  <br>
+{#  <p>The Newspaper service has the following record counts:</p>#}
+{#  <ul>#}
+{#    <li><strong>Newspapers:</strong> {{ num_newspapers }}</li>#}
+{#    <li><strong>Redactors:</strong> {{ num_redactors }}</li>#}
+{#    <li><strong>Topics:</strong> {{ num_topics }}</li>#}
+{#  </ul>#}
+{#  <br>#}
   <form method="get" action="" class="form-inline" style="margin-bottom: 10px;">
     {{ search_form|crispy }}
     <input type="Submit" value="🔍" class="btn btn-secondary" style="margin-left:10px;">
