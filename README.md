@@ -26,6 +26,6 @@ As the head of a newspaper agency, you are responsible for managing a team of ed
 - [Source Code on GitHub](https://github.com/semermaks/Newspaper-Agency-mate.git)
 
 ## Images:
-![msedge_yn3FyN3U44.png](msedge_yn3FyN3U44.png)
+![msedge_yn3FyN3U44.png](screenshots/msedge_yn3FyN3U44.png)
 
-![msedge_zwE9ETTLqj.png](msedge_zwE9ETTLqj.png)
+![msedge_zwE9ETTLqj.png](screenshots/msedge_zwE9ETTLqj.png)
