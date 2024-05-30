@@ -54,13 +54,8 @@ class RedactorLicenseUpdateForm(forms.ModelForm):
 def validate_years_of_experience(
     years_of_experience,
 ):
-    if len(years_of_experience) != 8:
-        raise ValidationError("License number should consist of 8 characters")
-    elif not years_of_experience[:3].isupper() or not years_of_experience[:3].isalpha():
-        raise ValidationError("First 3 characters should be uppercase letters")
-    elif not years_of_experience[3:].isdigit():
-        raise ValidationError("Last 5 characters should be digits")
-
+    if years_of_experience > 150:
+        raise ValidationError("Years of experience is too big")
     return years_of_experience
 
 
