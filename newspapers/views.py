@@ -71,7 +71,7 @@ class RegisterView(FormView):
             f"""{reverse("newspapers:activate",
                                      args=[
                                          user.username,
-                                           user_token.token
+                                         user_token.token
                                      ])}"""
         )
 
