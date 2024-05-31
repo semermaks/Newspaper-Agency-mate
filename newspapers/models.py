@@ -54,9 +54,9 @@ class Newspaper(models.Model):
 
 
 class AbstractToken(models.Model):
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     token = models.CharField(max_length=64, unique=True, default=None, blank=True)
-    user = models.ForeignKey(Redactor, on_delete=models.CASCADE)
+    user = models.ForeignKey(Redactor, on_delete=models.CASCADE, related_name="token")
 
     class Meta:
         abstract = True
