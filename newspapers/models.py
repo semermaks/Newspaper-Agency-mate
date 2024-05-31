@@ -44,7 +44,7 @@ class Newspaper(models.Model):
         Topic, on_delete=models.CASCADE, related_name="newspapers"
     )
 
-    redactor = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="newspapers")
+    redactors = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="newspapers")
 
     class Meta:
         ordering = ["-published_date"]
