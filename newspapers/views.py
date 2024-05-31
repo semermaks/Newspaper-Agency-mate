@@ -22,8 +22,6 @@ from .forms import (
 )
 from .services import AccountsEmailNotification
 
-User = get_user_model()
-
 
 class CreateProfileView(LoginRequiredMixin, FormView):
     template_name = "registration/create_profile.html"
@@ -93,7 +91,7 @@ class RegisterView(FormView):
 
 class ActivateAccountView(View):
     def get(self, request: HttpRequest, username: str, token: str):
-        user = get_object_or_404(User, username=username)
+        user = get_object_or_404(get_user_model(), username=username)
         token = get_object_or_404(ActivateToken, token=token, user=user)
 
         if user.is_active:
