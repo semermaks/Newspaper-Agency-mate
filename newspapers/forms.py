@@ -56,6 +56,8 @@ def validate_years_of_experience(
 ):
     if years_of_experience > 150:
         raise ValidationError("Years of experience is too big")
+    if years_of_experience < 0:
+        raise ValidationError("Years of experience must not be negative")
     return years_of_experience
 
 
