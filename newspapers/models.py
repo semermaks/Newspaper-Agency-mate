@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
+from django.conf import settings
 
 
 class Topic(models.Model):
@@ -43,7 +44,7 @@ class Newspaper(models.Model):
         Topic, on_delete=models.CASCADE, related_name="newspapers"
     )
 
-    redactor = models.ManyToManyField(Redactor, related_name="newspapers")
+    redactor = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="newspapers")
 
     class Meta:
         ordering = ["-published_date"]
