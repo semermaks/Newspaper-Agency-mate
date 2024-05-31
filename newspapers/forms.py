@@ -54,7 +54,7 @@ class RedactorLicenseUpdateForm(forms.ModelForm):
 def validate_years_of_experience(
     years_of_experience,
 ):
-    if years_of_experience > 150:
+    if years_of_experience > 90:
         raise ValidationError("Years of experience is too big")
     if years_of_experience < 0:
         raise ValidationError("Years of experience must not be negative")
