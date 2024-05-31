@@ -1,4 +1,6 @@
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 from .views import (
     NewspaperListView,
@@ -21,8 +23,7 @@ from .views import (
     toggle_theme,
     toggle_assign_to_newspaper,
 )
-from django.conf import settings
-from django.conf.urls.static import static
+
 
 urlpatterns = [
     path("", NewspaperListView.as_view(), name="newspapers-list"),
