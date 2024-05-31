@@ -15,6 +15,8 @@ class RedactorModelTest(TestCase):
         )
         self.assertEqual(redactor.username, "test_redactor")
         self.assertEqual(redactor.years_of_experience, 3)
+        self.assertEqual(redactor.__str__(), f"{redactor.username} ({redactor.first_name} {redactor.last_name}): "
+                                             f"{redactor.years_of_experience} years")
 
 
 class NewspaperModelTest(TestCase):
@@ -31,6 +33,8 @@ class NewspaperModelTest(TestCase):
         self.assertEqual(newspaper.title, "Test Newspaper")
         self.assertEqual(newspaper.content, "Test content")
         self.assertEqual(newspaper.topic, topic)
+        self.assertEqual(newspaper.topic.__str__(), f"{newspaper.topic.title}")
+        self.assertEqual(newspaper.__str__(), f"{newspaper.title}: {newspaper.content} ({newspaper.published_date})")
         self.assertIn(redactor, newspaper.redactor.all())
 
 
