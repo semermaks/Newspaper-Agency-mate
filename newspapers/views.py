@@ -280,7 +280,7 @@ class RedactorDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 def toggle_theme(request):
     if request.method == "POST":
-        white = request.session.get("white", 1)
+        white = request.session.get("white", True)
         request.session['white'] = not request.session['white']
     return redirect("newspapers:newspapers-list")
 
