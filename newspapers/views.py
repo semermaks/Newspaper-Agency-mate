@@ -128,6 +128,7 @@ def register_view(request):
                 user.email, user.get_full_name(), "http://127.0.0.1:8000"
             )
             return redirect("registration:login")
+        return render(request, "registration/register.html", {"form": form})
 
     return render(request, "registration/register.html", {"form": RegisterForm()})
 
