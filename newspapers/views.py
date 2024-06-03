@@ -287,15 +287,14 @@ def toggle_theme(request):
 
 @login_required
 def toggle_assign_to_newspaper(request, pk):
-    redactor = Redactor.objects.filter(id=request.user.id).first()
-    if redactor:
-        newspaper = Newspaper.objects.filter(id=pk).first()
-        if newspaper:
-            if newspaper in redactor.newspaper.all():
-                redactor.newspaper.remove(newspaper)
-            else:
-                redactor.newspaper.add(newspaper)
-            return HttpResponseRedirect(reverse_lazy("newspaper:newspaper-detail", args=[pk]))
+    newspaper = Newspaper.objects.get(id=pk)
+    if request.user.newspaper.filter(id=pk).exists():
+        request.user.newspaper.remove(pk)
+    else:
+        request.user.newspaper.add(pk)
+
+    return HttpResponseRedirect(reverse_lazy("newspaper:newspaper-detail", args=[pk]))
+
 
 
 def create_newspaper(request):
