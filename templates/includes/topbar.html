@@ -1,0 +1,25 @@
+<div class="topbar">
+  <ul class="d-flex justify-content-between align-items-center">
+    <div class="m-5 mb-3 text-center w-100"><a href="{% url 'newspapers:newspapers-list' %}">Newspapers</a></div>
+    <div class="m-5 mb-3 text-center w-100"><a href="{% url 'newspapers:redactor-list' %}">Redactors</a></div>
+    <div class="m-5 mb-3 text-center w-100"><a href="{% url 'newspapers:topic-list' %}">Topics</a></div>
+    <br>
+    {% if user.is_authenticated %}
+      <div class="m-5 mb-3 text-right w-100">User: <a href="{{ user.get_absolute_url }}">{{ user.get_username }}</a>
+      </div>
+      <div class="m-5 mb-3 text-left w-20"><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></div>
+    {% else %}
+      <div class="m-5 mb-3 text-left w-20"><a href="{% url 'login' %}?next={{ request.path }}">Login</a></div>
+    {% endif %}
+  <form method="POST" action="{% url 'newspapers:toggle_theme' %}">
+        {% csrf_token %}
+        <button type="submit" name="toggle" value="1" class="swicher btn">
+            {% if white == 1 %}
+                Dark Theme
+            {% else %}
+                Light Theme
+            {% endif %}
+        </button>
+    </form>
+  </ul>
+</div>

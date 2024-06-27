@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="m-0 mb-3 text-center w-100">
+      Topic List
+    </h1>
+    <div>
+      <a href="{% url 'newspapers:topic-create' %}" class="btn btn-primary">
+        Create
+      </a>
+    </div>
+  </div>
+  <br>
+  <form method="get" action="" class="form-inline" style="margin-bottom: 10px;">
+    {{ search_form|crispy }}
+    <input type="Submit" value="🔍" class="btn btn-secondary" style="margin-left:10px;">
+  </form>
+  {% if topic_list %}
+    <table class="main table">
+      <tr>
+        <th>Title ↑</th>
+      </tr>
+      {% for topic in topic_list %}
+        <tr>
+          <td>
+            {{ topic.title }}
+          </td>
+          <td>
+        {% if topic.is_creator %}
+            <a href="{% url 'newspapers:topic-update' pk=topic.id %}">
+              Update
+            </a>
+          </td>
+          <td>
+            <a style="color: red"
+               href="{% url 'newspapers:topic-delete' pk=topic.id %}">
+              Delete
+            </a>
+          </td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+
+  {% else %}
+    <p>There are no titles in the service.</p>
+  {% endif %}
+{% endblock %}

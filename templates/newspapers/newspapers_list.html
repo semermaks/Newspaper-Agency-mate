@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
+
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="m-0 mb-3 text-center w-100">
+      Newspapers Service Home
+    </h1>
+    <div>
+      <a href="{% url 'newspapers:newspapers-create' %}" class="btn btn-primary">
+        Create
+      </a>
+    </div>
+  </div>
+  <br>
+  <form method="get" action="" class="form-inline" style="margin-bottom: 10px;">
+    {{ search_form|crispy }}
+    <input type="Submit" value="🔍" class="btn btn-secondary" style="margin-left:10px;">
+  </form>
+  {% if newspapers_list %}
+    <table class="main table">
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Date ↓</th>
+      </tr>
+      {% for newspaper in newspapers_list %}
+        <tr style="background-image: url('{{ newspaper.main_img.url }}'); background-size: cover; background-position: center;">
+          <td style="color: white; background-color: rgba(0, 0, 0, 0.7);">{{ newspaper.title }}</td>
+          <td style="color: white; max-width: 3%; background-color: rgba(0, 0, 0, 0.7);">
+            <a style="color: white" href="{% url 'newspapers:newspaper-detail' pk=newspaper.id %}">{{ newspaper.content|slice:":400" }}...</a>
+          </td>
+          <td style="color: white; min-width: 250px; background-color: rgba(0, 0, 0, 0.7);">{{ newspaper.published_date }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>There are no newspapers.</p>
+  {% endif %}
+
+{% endblock %}

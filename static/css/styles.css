@@ -1,0 +1,42 @@
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.alert-auto-fade {
+  animation: fadeOut 5s ease forwards;
+}
+
+#delimiter {
+    min-height: 200px;
+}
+
+.topbar{
+  background-color: #84a5fa;
+  color: black;
+}
+
+a:link {
+  color: black;
+}
+
+a:visited {
+  color: #272727;
+}
+
+.swicher{
+  background-color: #0b2155;
+    color: white;
+}
+
+.swicher:hover {
+    color: #a3a3a3;
+}
+
+.img_hover{
+   background-color: rgba(255, 255, 255, 0.7);
+}

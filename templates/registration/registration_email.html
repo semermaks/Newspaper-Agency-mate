@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Confirmation</title>
+</head>
+<body>
+<div style="font-family: Arial, sans-serif; color: #333; background-color: #f4f4f4; padding: 20px; text-align: center;">
+  <h1 style="color: #333;">Welcome to Our Website!</h1>
+  <p style="color: #555; font-size: 16px;">Hi {{ full_name }},</p>
+  <p style="color: #555; font-size: 16px;">Thank you for registering with us. Please click the button below to confirm
+    your email address and activate your account.</p>
+  <a href="{{ activation_url }}"
+     style="background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px;">
+    Confirm Email
+  </a>
+  <p style="color: #777; font-size: 14px; margin-top: 20px;">If you did not create an account, no further action is
+    required.</p>
+  <p style="color: #777; font-size: 12px;">Regards, <br>Your Website Team</p>
+</div>
+</body>
+</html>
