@@ -1,6 +1,6 @@
 # Newspaper Agency Project
 
-As the head of a newspaper agency, you are responsible for managing a team of editors. However, there is currently no reliable system in place to track which editors are responsible for publishing each newspaper. To solve this problem, I have decided to create a system that will allow you to track the editors associated with each newspaper; create, update and manage newspapers and topics.
+This dynamic website, developed in just 4 days using Django and Bootstrap. It features robust account registration, comprehensive news article management (including adding, editing, and categorizing), and collaborative editing capabilities, allowing users to add and manage contributors effectively.
 
 ## Features:
 - Develop a system to keep track of editors and their assignments.
